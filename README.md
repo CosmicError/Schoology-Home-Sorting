@@ -1,1 +1,1 @@
-**ALERT: Made in & for use in Tampermonkey**
+**Made in and for use in Tampermonkey**

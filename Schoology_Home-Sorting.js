@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Schoology_Home-Sorting
 // @namespace    http://tampermonkey.net/
-// @version      1.1.2
+// @version      1.2
 // @description  Sort Overdue and Upcoming Assignments by class
 // @author       Jack Vega
 // @match        *://*.schoology.com
@@ -21,7 +21,7 @@
             return obj.querySelector("h4 > span.infotip.sCommonInfotip-processed").getAttribute("aria-label").split(" :")[0].replaceAll("&amp;", "&");
         };
 
-        function newHeader(str, obj, x) {
+        function newHeader(str, obj, x = "") {
             let a = document.createElement("div");
             let b = document.createElement("h4");
             a.setAttribute("class", "date-header  " + x + " sEventUpcoming-processed");
@@ -31,80 +31,58 @@
             return a;
         };
 
-
-        // -- OVERDUE SECTION HANDLINE --
         let overdueCol = document.querySelector("#overdue-submissions > div");
-        let overdueAssign = [];
-        let className = [];
-        let classElement = [];
         let upcomingCol = document.querySelector("#right-column-inner > div.upcoming-events.upcoming-events-wrapper.sEventUpcoming-processed > div");
+        let overdueAssign = [];
         let upcomingAssign = [];
+        let className = [];
         let uclassName = [];
+        let classElement = [];
         let uclassElement = [];
-        let i = 0;
-        var date = String;
-        var text = String;
 
+        //REMOVE HIDDEN ITEMS
         while (document.querySelectorAll(".upcoming-event.course-event.hidden").length) {
             document.querySelectorAll(".upcoming-event.course-event.hidden")[0].remove();
         };
 
-        for (i = 0; i < document.querySelectorAll(".upcoming-event.course-event").length; i++) {
+        //ASSIGN ALL ASSIGNMENT TO PROPER LIST
+        for (var i = 0; i < document.querySelectorAll(".upcoming-event.course-event").length; i++) {
+            try {
+                document.querySelectorAll(".upcoming-event.course-event")[i].querySelector("h4 > span > span.upcoming-time.singleday").innerText;
+            } catch {
+                var nSpan = document.createElement("span");
+                nSpan.setAttribute("class", "upcoming-time singleday");
+                nSpan.innerText = "NT";
+                document.querySelectorAll(".upcoming-event.course-event")[i].querySelector("h4 > span").appendChild(nSpan);
+            };
+            var text = document.querySelectorAll(".upcoming-event.course-event")[i].querySelector("h4 > span > span.upcoming-time.singleday");
             if (document.querySelectorAll(".upcoming-event.course-event")[i].parentElement.parentElement.getAttribute("class") == "overdue-submissions overdue-submissions-wrapper") {
-
-                //SET DUE DATE & DUE TIME
-                text = document.querySelectorAll(".upcoming-event.course-event")[i].querySelector("h4 > span > span.upcoming-time.singleday").innerText;
-                if (document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "date-header   sEventUpcoming-processed") {
-                    date = document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.querySelector("h4").innerText;
-                    document.querySelectorAll(".upcoming-event.course-event")[i].querySelector("h4 > span > span.upcoming-time.singleday").innerText = date + ' | ' + text;
-                } else if (document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "date-header first  sEventUpcoming-processed") {
-                    date = document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.querySelector("h4").innerText;
-                    document.querySelectorAll(".upcoming-event.course-event")[i].querySelector("h4 > span > span.upcoming-time.singleday").innerText = date + ' | ' + text;
+                if (document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "upcoming-event course-event") {
+                    var date = document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.querySelector("h4 > span > span.upcoming-time.singleday").innerText.split(" | ")[0];
                 } else {
-                    date = document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.querySelector("h4 > span > span.upcoming-time.singleday").innerText.split(" | ")[0];
-                    document.querySelectorAll(".upcoming-event.course-event")[i].querySelector("h4 > span > span.upcoming-time.singleday").innerText = date + ' | ' + text;
+                    date = document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.querySelector("h4").innerText;
                 };
                 overdueAssign.push(document.querySelectorAll(".upcoming-event.course-event")[i]);
             } else if (document.querySelectorAll(".upcoming-event.course-event")[i].parentElement.parentElement.getAttribute("class") == "upcoming-events upcoming-events-wrapper sEventUpcoming-processed") {
-
-                //SET DUE DATE & DUE TIME
-                try {
-                    text = document.querySelectorAll(".upcoming-event.course-event")[i].querySelector("h4 > span > span.upcoming-time.singleday");
-                    if (document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "date-header  tomorrow sEventUpcoming-processed") {
-                        date = document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.querySelector("h4").innerText;
-                        text.innerText = date + ' | ' + text.innerText;
-                    } else if (document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "date-header first today sEventUpcoming-processed") {
-                        date = document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.querySelector("h4").innerText;
-                        text.innerText = date + ' | ' + text.innerText;
-                    } else {
-                        date = document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.querySelector("h4 > span > span.upcoming-time.singleday").innerText.split(" | ")[0];
-                        text.innerText = date + ' | ' + text.innerText;
-                    };
-                } catch (err) {
-
-                    //Catch cases where there is no time of day at which it is due (just a day)
-                    var SPAN = document.createElement("span");
-                    SPAN.setAttribute("class", "upcoming-time singleday");
-                    SPAN.innerText = "NT";
-                    document.querySelectorAll(".upcoming-event.course-event")[i].querySelector("h4 > span").appendChild(SPAN);
-                    if (document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "date-header  tomorrow sEventUpcoming-processed") {
-                        date = document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.querySelector("h4").innerText;
-                        SPAN.innerText = date + ' | ' + SPAN.innerText;
-                    } else if (document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "date-header first today sEventUpcoming-processed") {
-                        date = document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.querySelector("h4").innerText;
-                        SPAN.innerText = date + ' | ' + SPAN.innerText;
-                    } else {
-                        date = document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.querySelector("h4 > span > span.upcoming-time.singleday").innerText.split(" | ")[0];
-                        SPAN.innerText = date + ' | ' + SPAN.innerText;
-                    };
+                if (document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "upcoming-event course-event") {
+                    date = document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.querySelector("h4 > span > span.upcoming-time.singleday").innerText.split(" | ")[0];
+                } else {
+                    date = document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.querySelector("h4").innerText;
                 };
                 upcomingAssign.push(document.querySelectorAll(".upcoming-event.course-event")[i]);
             };
+            text.innerText = date + ' | ' + text.innerText;
         };
 
+        //GET CLASS NAMES
         for (i = 0; i < overdueAssign.length; i++) {
             if (!className.includes(getClass(overdueAssign[i]))) {
                 className.push(getClass(overdueAssign[i]));
+            };
+        };
+        for (i = 0; i < upcomingAssign.length; i++) {
+            if (!uclassName.includes(getClass(upcomingAssign[i]))) {
+                uclassName.push(getClass(upcomingAssign[i]));
             };
         };
 
@@ -112,10 +90,19 @@
         while (overdueCol.querySelector("#overdue-submissions > div > div.date-header.sEventUpcoming-processed")) {
             overdueCol.querySelector("#overdue-submissions > div > div.date-header.sEventUpcoming-processed").remove();
         };
+        if (upcomingCol.querySelector("#right-column-inner > div.upcoming-events.upcoming-events-wrapper.sEventUpcoming-processed > div > div.date-header.first.today.sEventUpcoming-processed")) {
+            upcomingCol.querySelector("#right-column-inner > div.upcoming-events.upcoming-events-wrapper.sEventUpcoming-processed > div > div.date-header.first.today.sEventUpcoming-processed").remove();
+        };
+        while (upcomingCol.querySelector("#right-column-inner > div.upcoming-events.upcoming-events-wrapper.sEventUpcoming-processed > div > div.date-header.tomorrow.sEventUpcoming-processed")) {
+            upcomingCol.querySelector("#right-column-inner > div.upcoming-events.upcoming-events-wrapper.sEventUpcoming-processed > div > div.date-header.tomorrow.sEventUpcoming-processed").remove();
+        };
 
         //ASSIGN NEW HEADERS
         for (i = 0; i < className.length; i++) {
-            classElement.push(newHeader(className[i], overdueCol, ""));
+            classElement.push(newHeader(className[i], overdueCol));
+        };
+        for (i = 0; i < uclassName.length; i++) {
+            uclassElement.push(newHeader(uclassName[i], upcomingCol, "tomorrow"));
         };
 
         //SORT ASSIGNMENT INTO NEW HEADERS BY CLASS
@@ -124,32 +111,6 @@
                 overdueCol.insertBefore(overdueAssign[i], classElement[className.indexOf(getClass(overdueAssign[i])) + 1]);
             };
         };
-
-
-
-
-        // -- UPCOMING SECTION HANDLING --
-
-        for (i = 0; i < upcomingAssign.length; i++) {
-            if (!uclassName.includes(getClass(upcomingAssign[i]))) {
-                uclassName.push(getClass(upcomingAssign[i]));
-            };
-        };
-
-        //REMOVE OLD HEADERS
-        while (upcomingCol.querySelector("#right-column-inner > div.upcoming-events.upcoming-events-wrapper.sEventUpcoming-processed > div > div.date-header.tomorrow.sEventUpcoming-processed")) {
-            upcomingCol.querySelector("#right-column-inner > div.upcoming-events.upcoming-events-wrapper.sEventUpcoming-processed > div > div.date-header.tomorrow.sEventUpcoming-processed").remove();
-        };
-        if (upcomingCol.querySelector("#right-column-inner > div.upcoming-events.upcoming-events-wrapper.sEventUpcoming-processed > div > div.date-header.first.today.sEventUpcoming-processed")) {
-            upcomingCol.querySelector("#right-column-inner > div.upcoming-events.upcoming-events-wrapper.sEventUpcoming-processed > div > div.date-header.first.today.sEventUpcoming-processed").remove();
-        };
-
-        //ASSIGN NEW HEADERS
-        for (i = 0; i < uclassName.length; i++) {
-            uclassElement.push(newHeader(uclassName[i], upcomingCol, "tomorrow"));
-        };
-
-        //SORT ASSIGNMENT INTO NEW HEADERS BY CLASS
         for (i = 0; i < upcomingAssign.length; i++) {
             if (upcomingAssign[i].parentElement.parentElement.getAttribute("class") == "upcoming-events upcoming-events-wrapper sEventUpcoming-processed") {
                 upcomingCol.insertBefore(upcomingAssign[i], uclassElement[uclassName.indexOf(getClass(upcomingAssign[i])) + 1]);

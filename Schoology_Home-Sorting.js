@@ -18,7 +18,7 @@
 
         //FUCNTIONS
         function getClass(obj) {
-            return obj.querySelector("h4 > span.infotip sCommonInfotip-processed").getAttribute("aria-label").split(" :")[0].replaceAll("&amp;", "&");
+            return obj.querySelector("h4 > span.infotip.sCommonInfotip-processed").getAttribute("aria-label").split(" :")[0].replaceAll("&amp;", "&");
         };
 
         function newHeader(str, obj, x) {

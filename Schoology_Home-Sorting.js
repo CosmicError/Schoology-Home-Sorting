@@ -125,7 +125,7 @@
 
         //ASSIGN NEW HEADERS
         for (i = 0; i < uclassName.length; i++) {
-            uclassElement.push(newHeader(uclassName[i], upcomingCol, ""));
+            uclassElement.push(newHeader(uclassName[i], upcomingCol, "tomorrow"));
         };
 
         //SORT ASSIGNMENT INTO NEW HEADERS BY CLASS

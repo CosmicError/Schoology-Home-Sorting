@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @version      1.2
 // @description  Sort Overdue and Upcoming Assignments by class
-// @author       Jack Vega
+// @author       Cosmic
 // @match        *://*.schoology.com
 // @match        *://*.schoology.com/home
 // @match        *://*.schoology.com/home/recent-activity

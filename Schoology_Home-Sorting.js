@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Schoology_Home-Sorting
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.2
 // @description  Sort Overdue and Upcoming Assignments by class
 // @author       Jack Vega
 // @match        *://*.schoology.com
@@ -88,10 +88,9 @@
         };
 
         //REMOVE OLD HEADERS
-        for (i in overdueCol.getElementsByClassName("date-header   sEventUpcoming-processed")) {
-            overdueCol.getElementsByClassName("date-header   sEventUpcoming-processed")[0].remove();
+        while (overdueCol.querySelector("#overdue-submissions > div > div.date-header.sEventUpcoming-processed")) {
+            overdueCol.querySelector("#overdue-submissions > div > div.date-header.sEventUpcoming-processed").remove();
         };
-        overdueCol.getElementsByClassName("date-header   sEventUpcoming-processed")[0].remove();
 
         //ASSIGN NEW HEADERS
         for (i = 0; i < className.length; i++) {
@@ -117,8 +116,8 @@
         };
 
         //REMOVE OLD HEADERS
-        for (i in upcomingCol.getElementsByClassName("date-header  tomorrow sEventUpcoming-processed")) {
-            upcomingCol.getElementsByClassName("date-header  tomorrow sEventUpcoming-processed")[0].remove();
+        while (upcomingCol.querySelector("#right-column-inner > div.upcoming-events.upcoming-events-wrapper.sEventUpcoming-processed > div > div.date-header.tomorrow.sEventUpcoming-processed")) {
+            upcomingCol.querySelector("#right-column-inner > div.upcoming-events.upcoming-events-wrapper.sEventUpcoming-processed > div > div.date-header.tomorrow.sEventUpcoming-processed").remove();
         };
 
         //ASSIGN NEW HEADERS

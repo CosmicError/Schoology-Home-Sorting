@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Schoology_Home-Sorting
+// @name         Schoology Home Sorting
 // @namespace    http://tampermonkey.net/
 // @version      1.2
 // @description  Sort Overdue and Upcoming Assignments by class

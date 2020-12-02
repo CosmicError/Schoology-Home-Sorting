@@ -45,43 +45,46 @@
         var date = String;
         var text = String;
 
-        for (i = 0; i < document.getElementsByClassName("upcoming-event course-event").length; i++) {
-            if (document.getElementsByClassName("upcoming-event course-event")[i].parentElement.parentElement.getAttribute("class") == "overdue-submissions overdue-submissions-wrapper") {
-                if (document.getElementsByClassName("upcoming-event course-event")[i].getAttribute("class") != "upcoming-event course-event  hidden") {
+        for (i = 0; i < document.querySelectorAll(".upcoming-event.course-event").length; i++) {
+            if (document.querySelectorAll(".upcoming-event.course-event")[i].parentElement.parentElement.getAttribute("class") == "overdue-submissions overdue-submissions-wrapper") {
+                if (document.querySelectorAll(".upcoming-event.course-event")[i].getAttribute("class") != "upcoming-event course-event  hidden") {
+
                     //SET DUE DATE & DUE TIME
-                    text = document.getElementsByClassName("upcoming-event course-event")[i].querySelector("h4 > span > span.upcoming-time.singleday").innerText;
-                    if (document.getElementsByClassName("upcoming-event course-event")[i].previousSibling.getAttribute("class") == "date-header   sEventUpcoming-processed") {
-                        date = document.getElementsByClassName("upcoming-event course-event")[i].previousSibling.querySelector("h4").innerText;
-                        document.getElementsByClassName("upcoming-event course-event")[i].querySelector("h4 > span > span.upcoming-time.singleday").innerText = date+' | '+text;
-                    } else if (document.getElementsByClassName("upcoming-event course-event")[i].previousSibling.getAttribute("class") == "date-header first  sEventUpcoming-processed") {
-                        date = document.getElementsByClassName("upcoming-event course-event")[i].previousSibling.querySelector("h4").innerText;
-                        document.getElementsByClassName("upcoming-event course-event")[i].querySelector("h4 > span > span.upcoming-time.singleday").innerText = date+' | '+text;
+                    text = document.querySelectorAll(".upcoming-event.course-event")[i].querySelector("h4 > span > span.upcoming-time.singleday").innerText;
+                    if (document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "date-header   sEventUpcoming-processed") {
+                        date = document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.querySelector("h4").innerText;
+                        document.querySelectorAll(".upcoming-event.course-event")[i].querySelector("h4 > span > span.upcoming-time.singleday").innerText = date+' | '+text;
+                    } else if (document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "date-header first  sEventUpcoming-processed") {
+                        date = document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.querySelector("h4").innerText;
+                        document.querySelectorAll(".upcoming-event.course-event")[i].querySelector("h4 > span > span.upcoming-time.singleday").innerText = date+' | '+text;
                     } else {
-                        date = document.getElementsByClassName("upcoming-event course-event")[i].previousSibling.querySelector("h4 > span > span.upcoming-time.singleday").innerText.split(" | ")[0];
-                        document.getElementsByClassName("upcoming-event course-event")[i].querySelector("h4 > span > span.upcoming-time.singleday").innerText = date+' | '+text;
+                        date = document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.querySelector("h4 > span > span.upcoming-time.singleday").innerText.split(" | ")[0];
+                        document.querySelectorAll(".upcoming-event.course-event")[i].querySelector("h4 > span > span.upcoming-time.singleday").innerText = date+' | '+text;
                     };
-                    overdueAssign.push(document.getElementsByClassName("upcoming-event course-event")[i]);
+                    overdueAssign.push(document.querySelectorAll(".upcoming-event.course-event")[i]);
                 };
-            } else if (document.getElementsByClassName("upcoming-event course-event")[i].parentElement.parentElement.getAttribute("class") == "upcoming-events upcoming-events-wrapper sEventUpcoming-processed") {
-                if (document.getElementsByClassName("upcoming-event course-event")[i].getAttribute("class") != "upcoming-event course-event  hidden") {
+            } else if (document.querySelectorAll(".upcoming-event.course-event")[i].parentElement.parentElement.getAttribute("class") == "upcoming-events upcoming-events-wrapper sEventUpcoming-processed") {
+                if (document.querySelectorAll(".upcoming-event.course-event")[i].getAttribute("class") != "upcoming-event course-event  hidden") {
+
                     //SET DUE DATE & DUE TIME
-                    text = document.getElementsByClassName("upcoming-event course-event")[i].querySelector("h4 > span > span.upcoming-time.singleday").innerText;
-                    if (document.getElementsByClassName("upcoming-event course-event")[i].previousSibling.getAttribute("class") == "date-header  tomorrow sEventUpcoming-processed") {
-                        date = document.getElementsByClassName("upcoming-event course-event")[i].previousSibling.querySelector("h4").innerText;
-                        document.getElementsByClassName("upcoming-event course-event")[i].querySelector("h4 > span > span.upcoming-time.singleday").innerText = date+' | '+text;
-                    } else if (document.getElementsByClassName("upcoming-event course-event")[i].previousSibling.getAttribute("class") == "date-header first tomorrow sEventUpcoming-processed") {
-                        date = document.getElementsByClassName("upcoming-event course-event")[i].previousSibling.querySelector("h4").innerText;
-                        document.getElementsByClassName("upcoming-event course-event")[i].querySelector("h4 > span > span.upcoming-time.singleday").innerText = date+' | '+text;
+                    text = document.querySelectorAll(".upcoming-event.course-event")[i].querySelector("h4 > span > span.upcoming-time.singleday").innerText;
+                    if (document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "date-header  tomorrow sEventUpcoming-processed") {
+                        date = document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.querySelector("h4").innerText;
+                        document.querySelectorAll(".upcoming-event.course-event")[i].querySelector("h4 > span > span.upcoming-time.singleday").innerText = date+' | '+text;
+                    } else if (document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "date-header first tomorrow sEventUpcoming-processed") {
+                        date = document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.querySelector("h4").innerText;
+                        document.querySelectorAll(".upcoming-event.course-event")[i].querySelector("h4 > span > span.upcoming-time.singleday").innerText = date+' | '+text;
                     } else {
-                        date = document.getElementsByClassName("upcoming-event course-event")[i].previousSibling.querySelector("h4 > span > span.upcoming-time.singleday").innerText.split(" | ")[0];
-                        document.getElementsByClassName("upcoming-event course-event")[i].querySelector("h4 > span > span.upcoming-time.singleday").innerText = date+' | '+text;
+                        date = document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.querySelector("h4 > span > span.upcoming-time.singleday").innerText.split(" | ")[0];
+                        document.querySelectorAll(".upcoming-event.course-event")[i].querySelector("h4 > span > span.upcoming-time.singleday").innerText = date+' | '+text;
                     };
-                    upcomingAssign.push(document.getElementsByClassName("upcoming-event course-event")[i]);
+                    upcomingAssign.push(document.querySelectorAll(".upcoming-event.course-event")[i]);
                 };
             };
         };
 
         for (i = 0; i < overdueAssign.length; i++) {
+
             if (!className.includes(getClass(overdueAssign[i]))) {
                 className.push(getClass(overdueAssign[i]));
             };

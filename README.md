@@ -1,1 +1,1 @@
-**Made in and for use in Tampermonkey**
+**Made in and tested in Tampermonkey**

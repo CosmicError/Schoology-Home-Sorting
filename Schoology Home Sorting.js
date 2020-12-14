@@ -68,7 +68,7 @@
             } else if (document.querySelectorAll(".upcoming-event.course-event")[i].parentElement.parentElement.getAttribute("class") == "upcoming-events upcoming-events-wrapper sEventUpcoming-processed") {
                 console.log(document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling);
                 if (document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "date-header first today sEventUpcoming-processed"
-                    ||document.querySelector(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "date-header first tomorrow sEventUpcoming-processed"
+                    ||document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "date-header first tomorrow sEventUpcoming-processed"
                     ||document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "date-header  today sEventUpcoming-processed"
                     ||document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "date-header  tomorrow sEventUpcoming-processed") {
                     console.log(document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling);

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Schoology Home Sorting
 // @namespace    http://tampermonkey.net/
-// @version      1.2.2
+// @version      1.2.3
 // @description  Sort Overdue and Upcoming Assignments by class
 // @author       Jack Vega
 // @match        *://*.schoology.com
@@ -66,12 +66,10 @@
                 };
                 overdueAssign.push(document.querySelectorAll(".upcoming-event.course-event")[i]);
             } else if (document.querySelectorAll(".upcoming-event.course-event")[i].parentElement.parentElement.getAttribute("class") == "upcoming-events upcoming-events-wrapper sEventUpcoming-processed") {
-                console.log(document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling);
                 if (document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "date-header first today sEventUpcoming-processed"
                     ||document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "date-header first tomorrow sEventUpcoming-processed"
                     ||document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "date-header  today sEventUpcoming-processed"
                     ||document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "date-header  tomorrow sEventUpcoming-processed") {
-                    console.log(document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling);
                     date = document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.querySelector("h4").innerText;
                 } else {
                     date = document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.querySelector("h4 > span > span.upcoming-time.singleday").innerText.split(" | ")[0];

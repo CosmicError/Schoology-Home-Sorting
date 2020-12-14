@@ -1,20 +1,22 @@
 // ==UserScript==
 // @name         Schoology Home Sorting
 // @namespace    http://tampermonkey.net/
-// @version      1.2.1
+// @version      1.2.2
 // @description  Sort Overdue and Upcoming Assignments by class
 // @author       Jack Vega
 // @match        *://*.schoology.com
 // @match        *://*.schoology.com/home
 // @match        *://*.schoology.com/home/recent-activity
 // @match        *://*.schoology.com/home/course-dashboard
+// @run-at       document-start
 // @grant        none
 // ==/UserScript==
 
 (function () {
     'use strict';
-    window.onload = function () {
-
+    window.onload = () => {
+        //BEGIN 1 SECOND AFTER onload JUST IN CASE
+        setTimeout(() => {
 
         //FUCNTIONS
         function getClass(obj) {
@@ -64,7 +66,12 @@
                 };
                 overdueAssign.push(document.querySelectorAll(".upcoming-event.course-event")[i]);
             } else if (document.querySelectorAll(".upcoming-event.course-event")[i].parentElement.parentElement.getAttribute("class") == "upcoming-events upcoming-events-wrapper sEventUpcoming-processed") {
-                if (document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "date-header first today sEventUpcoming-processed" || document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "date-header  tomorrow sEventUpcoming-processed") {
+                console.log(document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling);
+                if (document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "date-header first today sEventUpcoming-processed"
+                    ||document.querySelector(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "date-header first tomorrow sEventUpcoming-processed"
+                    ||document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "date-header  today sEventUpcoming-processed"
+                    ||document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.getAttribute("class") == "date-header  tomorrow sEventUpcoming-processed") {
+                    console.log(document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling);
                     date = document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.querySelector("h4").innerText;
                 } else {
                     date = document.querySelectorAll(".upcoming-event.course-event")[i].previousSibling.querySelector("h4 > span > span.upcoming-time.singleday").innerText.split(" | ")[0];
@@ -93,8 +100,14 @@
         if (upcomingCol.querySelector("#right-column-inner > div.upcoming-events.upcoming-events-wrapper.sEventUpcoming-processed > div > div.date-header.first.today.sEventUpcoming-processed")) {
             upcomingCol.querySelector("#right-column-inner > div.upcoming-events.upcoming-events-wrapper.sEventUpcoming-processed > div > div.date-header.first.today.sEventUpcoming-processed").remove();
         };
+        if (upcomingCol.querySelector("#right-column-inner > div.upcoming-events.upcoming-events-wrapper.sEventUpcoming-processed > div > div.date-header.today.sEventUpcoming-processed")) {
+            upcomingCol.querySelector("#right-column-inner > div.upcoming-events.upcoming-events-wrapper.sEventUpcoming-processed > div > div.date-header.today.sEventUpcoming-processed").remove();
+        };
         while (upcomingCol.querySelector("#right-column-inner > div.upcoming-events.upcoming-events-wrapper.sEventUpcoming-processed > div > div.date-header.tomorrow.sEventUpcoming-processed")) {
             upcomingCol.querySelector("#right-column-inner > div.upcoming-events.upcoming-events-wrapper.sEventUpcoming-processed > div > div.date-header.tomorrow.sEventUpcoming-processed").remove();
+        };
+        if (upcomingCol.querySelector("#right-column-inner > div.upcoming-events.upcoming-events-wrapper.sEventUpcoming-processed > div > div.date-header.first.tomorrow.sEventUpcoming-processed")) {
+            upcomingCol.querySelector("#right-column-inner > div.upcoming-events.upcoming-events-wrapper.sEventUpcoming-processed > div > div.date-header.first.tomorrow.sEventUpcoming-processed").remove();
         };
 
         //ASSIGN NEW HEADERS
@@ -116,5 +129,6 @@
                 upcomingCol.insertBefore(upcomingAssign[i], uclassElement[uclassName.indexOf(getClass(upcomingAssign[i])) + 1]);
             };
         };
+    }, 1000);
     };
 })();

@@ -1,1 +1,3 @@
-**Made in and tested in Tampermonkey**
+**Made & Tested in Tampermonkey**
+
+Schoology QOL Javascript scripts that just make the site better

@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Schoology Courses Menu QOL
+// @name         Schoology-Menu - Courses QOL
 // @namespace    http://tampermonkey.net/
 // @version      0.2.1
 // @description  try to take over the world!
